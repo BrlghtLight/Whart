@@ -8,10 +8,10 @@
 import java.util.*;
 import java.io.*;
 
-public class main {
+public class basketball {
     public static void main(String[] args) throws IOException {
         Scanner console = new Scanner(System.in);
-        String inputFile;
+        String inputFile, favoritePlayer;
 
         //create read file
         System.out.print("Input file name: ");
@@ -23,8 +23,12 @@ public class main {
         inputFile = console.nextLine();
         PrintWriter outFile = createFileOutputObject(inputFile, false);
 
+        //prompt user for favorite player
+        System.out.print("Favorite player?: ");
+        favoritePlayer = console.nextLine();
+
         //Calculate
-        fileIOMethod(inFile, outFile);
+        fileIOMethod(inFile, outFile, favoritePlayer);
 
         //close read and written files
         inFile.close();
@@ -65,9 +69,9 @@ public class main {
     //Read, calculate, write
     //
     ////
-    public static void fileIOMethod(Scanner inFile, PrintWriter outFile) throws IOException {
-        String name, team, position;
-        double fgm = 0, fga = 0, reb, ast, fgp;
+    public static void fileIOMethod(Scanner inFile, PrintWriter outFile, String favoritePlayer) throws IOException {
+        String name, team, position, favoritePlayerDetails = "";
+        double fgm = 0, fga = 0, reb, ast, fgp, greatestFgp = 0;
         int count = 0,
                 cCount = 0,
                 pfCount = 0,
@@ -94,6 +98,14 @@ public class main {
             //calculate field goal percentage fgp = FGM/FGA
             fgp = fgm / fga;
 
+            if (fgp > greatestFgp) {
+                greatestFgp = fgp;
+            }
+            if (favoritePlayer.equals(name)) {
+                favoritePlayerDetails = name + team + position + fgp;
+            }
+
+
             //calculate players in certain positions
             if (position.equals("C")) {
                 cCount++;
@@ -112,7 +124,7 @@ public class main {
             }
 
             //output the individual data
-            outFile.printf("%-10s %-15s %-15s %-5d %-5d %-5d %-5d %-8.2f %n",
+            outFile.printf("%-30s %-15s %-15s %-8.2f %-8.2f %-8.2f %-8.2f %-8.4f %n",
                     name, team, position, fgm, fga, reb, ast, fgp);
 
         }//while
@@ -127,7 +139,8 @@ public class main {
             outFile.println("Total Small Forwards: " + sfCount);
             outFile.println("Total Shooting Guards: " + sgCount);
             outFile.println("Total Point Guards: " + pgCount);
-            outFile.printf("Field Goal Percentage: %.2f %n", fgm / fga);
+            outFile.printf("Greatest Field Goal Percentage: %.0f %n", greatestFgp * 100);
+            outFile.printf("Favorite Player: %s", favoritePlayerDetails);
         } else {
             outFile.println("No Data.");
         }
