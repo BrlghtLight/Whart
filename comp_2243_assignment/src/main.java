@@ -8,67 +8,73 @@
 import java.util.*;
 import java.io.*;
 
-public class comp_2243_assignment {
-    public static void main(String [] args) throws IOException {
+public class main {
+    public static void main(String[] args) throws IOException {
         Scanner console = new Scanner(System.in);
+        String inputFile;
 
-        String fileName;
+        //create read file
+        System.out.print("Input file name: ");
+        inputFile = console.nextLine();
+        Scanner inFile = createFileInputObject(inputFile);
 
-        System.out.print("Enter input file name: ");
-        fileName = console.nextLine();
+        //create result file
+        System.out.print("Output file name: ");
+        inputFile = console.nextLine();
+        PrintWriter outFile = createFileOutputObject(inputFile, false);
 
-        //call the method to create the file input object
-        Scanner inFile = createFileInputObject( fileName );
+        //Calculate
+        fileIOMethod(inFile, outFile);
 
-        System.out.print("Enter output file name: ");
-        fileName = console.nextLine();
-
-        //call the method to create the file output object
-        PrintWriter outFile = createFileOutputObject( fileName, false );
-
-        //call the method to read and write
-        fileIOMethod( inFile, outFile );
-
-        //close the file input and outputobjects
+        //close read and written files
         inFile.close();
         outFile.close(); //must
 
-        System.out.println("The program is done.");
+        //success
+        System.out.println("0");
 
-    }//end main
+    }
 
-    //method definition - create the input file object
-    public static Scanner createFileInputObject( String fileName ) throws IOException
-    {
+
+    ////
+    //
+    //Create input file object
+    //
+    ////
+    public static Scanner createFileInputObject(String fileName) throws IOException {
         File myFile = new File(fileName);
-        Scanner inFile = new Scanner( myFile );
+        Scanner inFile = new Scanner(myFile);
 
         return inFile;
     }
 
-    //method definition = creation of the output file object
-    public static PrintWriter createFileOutputObject( String fileName, boolean flag ) throws IOException
-    {
+    ////
+    //
+    //Create output file object
+    //
+    ////
+    public static PrintWriter createFileOutputObject(String fileName, boolean flag) throws IOException {
         FileWriter fw = new FileWriter(fileName, flag);
         PrintWriter outFile = new PrintWriter(fw);
 
         return outFile;
     }
 
-    //method definition - read data and calculate stats and write the results to the output file
-    public static void  fileIOMethod( Scanner inFile, PrintWriter outFile ) throws IOException
-    {
-
+    ////
+    //
+    //Read, calculate, write
+    //
+    ////
+    public static void fileIOMethod(Scanner inFile, PrintWriter outFile) throws IOException {
+        int count = 0;
 
         //move the inFile reference to the second line
-        for( int i = 0; i<6; i++ )
-        {
+        for (int i = 0; i < 6; i++) {
             inFile.next();
         }
 
         //use whileloop to read data
-        while(inFile.hasNext())
-        {
+        while (inFile.hasNext()) {
             //read data variables here
             count++;
 
@@ -84,13 +90,10 @@ public class comp_2243_assignment {
         outFile.println();
 
         //ensure there is data in the file read
-        if(count != 0)
-        {
+        if (count != 0) {
             //outFile.println();
             //outFile.printf();
-        }
-        else
-        {
+        } else {
             outFile.println("No Data.");
         }
     }
