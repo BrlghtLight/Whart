@@ -66,33 +66,68 @@ public class main {
     //
     ////
     public static void fileIOMethod(Scanner inFile, PrintWriter outFile) throws IOException {
-        int count = 0;
+        String name, team, position;
+        double fgm = 0, fga = 0, reb, ast, fgp;
+        int count = 0,
+                cCount = 0,
+                pfCount = 0,
+                sfCount = 0,
+                sgCount = 0,
+                pgCount = 0;
 
         //move the inFile reference to the second line
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 7; i++) {
             inFile.next();
         }
 
-        //use whileloop to read data
+        //read
         while (inFile.hasNext()) {
-            //read data variables here
+            name = inFile.next();
+            team = inFile.next();
+            position = inFile.next();
+            fgm = inFile.nextDouble();
+            fga = inFile.nextDouble();
+            reb = inFile.nextDouble();
+            ast = inFile.nextDouble();
             count++;
 
-            //calculate
+            //calculate field goal percentage fgp = FGM/FGA
+            fgp = fgm / fga;
 
+            //calculate players in certain positions
+            if (position.equals("C")) {
+                cCount++;
+            }
+            if (position.equals("PF")) {
+                pfCount++;
+            }
+            if (position.equals("SF")) {
+                sfCount++;
+            }
+            if (position.equals("SG")) {
+                sgCount++;
+            }
+            if (position.equals("PG")) {
+                pgCount++;
+            }
 
             //output the individual data
-            //outFile.printf("%-12s %-15s %-8d %-6d %-6d %-6d %-8.3f %n",
+            outFile.printf("%-10s %-15s %-15s %-5d %-5d %-5d %-5d %-8.2f %n",
+                    name, team, position, fgm, fga, reb, ast, fgp);
 
-        }//end while
+        }//while
 
-        //output the team stats
+        //output stats
         outFile.println();
 
-        //ensure there is data in the file read
         if (count != 0) {
-            //outFile.println();
-            //outFile.printf();
+            outFile.println("Total Players: " + count);
+            outFile.println("Total Centers: " + cCount);
+            outFile.println("Total Power Forwards: " + pfCount);
+            outFile.println("Total Small Forwards: " + sfCount);
+            outFile.println("Total Shooting Guards: " + sgCount);
+            outFile.println("Total Point Guards: " + pgCount);
+            outFile.printf("Field Goal Percentage: %.2f %n", fgm / fga);
         } else {
             outFile.println("No Data.");
         }
